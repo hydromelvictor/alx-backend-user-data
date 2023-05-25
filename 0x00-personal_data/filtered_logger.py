@@ -14,16 +14,7 @@ PII_FIELDS = ['name', 'email', 'phone', 'password', 'ip']
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
-    """
-    parameters
-    ===========
-    fields: List
-    redaction: str
-    message: str
-    separator: str
-
-    __return__:
-    """
+    """__return__"""
     for msg in message.split(separator)[:]:
         message = re.sub(msg.split('=')[1], redaction,
                          message) if msg.split('=')[0] in fields else message
@@ -63,9 +54,9 @@ def get_db() -> connector.connection.MySQLConnection:
     """database connection"""
     params = {
         'host': os.environ.get('PERSONAL_DATA_DB_HOST', "localhost"),
-        'user': os.environ('PERSONAL_DATA_DB_USERNAME', "root"),
-        'password': os.environ('PERSONAL_DATA_DB_PASSWORD', ""),
-        'database': os.environ('PERSONAL_DATA_DB_NAME')
+        'user': os.environ.get('PERSONAL_DATA_DB_USERNAME', "root"),
+        'password': os.environ.get('PERSONAL_DATA_DB_PASSWORD', ""),
+        'database': os.environ.get('PERSONAL_DATA_DB_NAME')
     }
     return mysql.connector.connect(**params)
 

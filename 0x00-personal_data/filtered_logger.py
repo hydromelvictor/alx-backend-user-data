@@ -50,19 +50,23 @@ class RedactingFormatter(logging.Formatter):
 def get_logger() -> logging.Logger:
     """get logger function"""
 
-    user_data = logging.Logger(__name__, level=logging.INFO)
-    user_data.setStreamHandler(RedactingFormatter)
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    handler = logger.setStreamHandler()
+    handler.setFormater(RedactingFormatter(PII_FIELDS))
+    logger.addHandler(handler)
+    return logger
 
 
 def get_db() -> connector.connection.MySQLConnection:
     """database connection"""
     params = {
-        'host': os.environ['PERSONAL_DATA_DB_HOST'],
-        'user': os.environ['PERSONAL_DATA_DB_USERNAME'],
-        'password': os.environ['PERSONAL_DATA_DB_PASSWORD'],
-        'database': os.environ['PERSONAL_DATA_DB_NAME']
+        'host': os.environ.get('PERSONAL_DATA_DB_HOST', "localhost"),
+        'user': os.environ('PERSONAL_DATA_DB_USERNAME', "root"),
+        'password': os.environ('PERSONAL_DATA_DB_PASSWORD', ""),
+        'database': os.environ('PERSONAL_DATA_DB_NAME')
     }
-
     return mysql.connector.connect(**params)
 
 

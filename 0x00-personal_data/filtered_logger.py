@@ -6,6 +6,10 @@ returns the log message obfuscated
 from typing import List
 import re
 import logging
+from mysql import connector
+import os
+
+PII_FIELDS = ['name', 'email', 'phone', 'password', 'ip']
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -20,11 +24,10 @@ def filter_datum(fields: List[str], redaction: str,
 
     __return__:
     """
-    msgs = message
-    for msg in message.split(separator):
-        msgs = re.sub(msg.split('=')[1], redaction,
-                      msgs) if msg.split('=')[0] in fields else msgs
-    return msgs
+    for msg in message.split(separator)[:]:
+        message = re.sub(msg.split('=')[1], redaction,
+                      message) if msg.split('=')[0] in fields else message
+    return message
 
 
 class RedactingFormatter(logging.Formatter):
@@ -42,3 +45,36 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         return filter_datum(self.fields, self.REDACTION,
                             super().format(record), self.SEPARATOR)
+
+
+def get_logger() -> logging.Logger:
+    """get logger function"""
+
+    user_data = logging.Logger(__name__, level=logging.INFO)
+    user_data.setStreamHandler(RedactingFormatter)
+
+
+def get_db() -> connector.connection.MySQLConnection:
+    """database connection"""
+    params = {
+        'host': os.environ['PERSONAL_DATA_DB_HOST'],
+        'user': os.environ['PERSONAL_DATA_DB_USERNAME'],
+        'password': os.environ['PERSONAL_DATA_DB_PASSWORD'],
+        'database': os.environ['PERSONAL_DATA_DB_NAME']
+    }
+
+    return mysql.connector.connect(**params)
+
+
+def main():
+    """main function"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.executr(
+        "SELECT * FROM users \
+         ORDER BY name, email, phone, ssn, password;"
+        )
+    for row in cursor:
+        print(row)
+    cursor.close()
+    db.close()

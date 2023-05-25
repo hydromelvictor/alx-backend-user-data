@@ -184,6 +184,16 @@ Implement a get_db function that returns a connector to the database (mysql.conn
 
 Use the os module to obtain credentials from the environment
 Use the module mysql-connector-python to connect to the MySQL database (pip3 install mysql-connector-python)
+
+Dans cette tâche, vous allez vous connecter à une base de données holberton sécurisée pour lire une table d'utilisateurs. La base de données est protégée par un nom d'utilisateur et un mot de passe qui sont définis en tant que variables d'environnement sur le serveur nommé PERSONAL_DATA_DB_USERNAME (défini par défaut comme "root"), PERSONAL_DATA_DB_PASSWORD (défini par défaut comme une chaîne vide) et PERSONAL_DATA_DB_HOST (défini par défaut comme "localhost").
+
+Le nom de la base de données est stocké dans PERSONAL_DATA_DB_NAME.
+
+Implémentez une fonction get_db qui renvoie un connecteur à la base de données (objet mysql.connector.connection.MySQLConnection).
+
+Utiliser le module os pour obtenir les informations d'identification de l'environnement.
+Utiliser le module mysql-connector-python pour se connecter à la base de données MySQL (pip3 install mysql-connector-python).
+
 bob@dylan:~$ cat main.sql
 -- setup mysql server
 -- configure permissions

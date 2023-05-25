@@ -58,7 +58,7 @@ def get_db() -> connector.connection.MySQLConnection:
         'password': os.environ.get('PERSONAL_DATA_DB_PASSWORD', ""),
         'database': os.environ.get('PERSONAL_DATA_DB_NAME')
     }
-    return mysql.connector.connect(**params)
+    return connector.connect(**params)
 
 
 def main() -> None:

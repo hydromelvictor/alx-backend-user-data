@@ -26,7 +26,7 @@ def filter_datum(fields: List[str], redaction: str,
     """
     for msg in message.split(separator)[:]:
         message = re.sub(msg.split('=')[1], redaction,
-                      message) if msg.split('=')[0] in fields else message
+                         message) if msg.split('=')[0] in fields else message
     return message
 
 
@@ -79,6 +79,13 @@ def main():
          ORDER BY name, email, phone, ssn, password;"
         )
     for row in cursor:
-        print(row)
+        msg = "name={}; email={}; ssn={}; password={}; ip={}; \
+            last_login={}; user_agent={}" \
+        .format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
+        print(msg)
     cursor.close()
     db.close()
+
+
+if __name__ == '__main__':
+    main()

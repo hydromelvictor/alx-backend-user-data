@@ -9,7 +9,7 @@ import logging
 from mysql import connector
 import os
 
-PII_FIELDS = ['name', 'email', 'phone', 'password', 'ip']
+PII_FIELDS = ('name', 'email', 'phone', 'password', 'ssn')
 
 
 def filter_datum(fields: List[str], redaction: str,

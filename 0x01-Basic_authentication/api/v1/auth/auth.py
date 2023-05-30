@@ -6,7 +6,6 @@ in the file api/v1/auth/auth.py
 """
 from flask import request
 from typing import List, TypeVar
-from models.user import User
 
 
 class Auth:

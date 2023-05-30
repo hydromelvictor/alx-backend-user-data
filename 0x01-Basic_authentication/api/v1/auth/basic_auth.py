@@ -35,4 +35,4 @@ class BasicAuth(Auth):
             if len(decoded_base64_authorization_header) != 0:
                 tab = tuple(decoded_base64_authorization_header.split(':'))
                 return tab[0], ':'.join(tab[1:])
-        return None
+        return None, None

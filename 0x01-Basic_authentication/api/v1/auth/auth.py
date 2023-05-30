@@ -6,6 +6,7 @@ in the file api/v1/auth/auth.py
 """
 from flask import request
 from typing import List, TypeVar
+from models.user import User
 
 
 class Auth:
@@ -32,7 +33,7 @@ class Auth:
                 excluded_all.append(s)
         if path:
             path0 = path + '/' if path[-1] != '/' else path[:len(path) - 1]
-        if path is None or (path not in excluded_all and 
+        if path is None or (path not in excluded_all and
                             path0 not in excluded_all) \
                                 or excluded_paths is None or \
                                     len(excluded_paths) == 0:

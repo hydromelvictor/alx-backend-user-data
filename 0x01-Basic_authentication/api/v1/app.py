@@ -17,9 +17,9 @@ auth = None
 
 if getenv('AUTH_TYPE') == 'auth':
     from api.v1.auth.auth import Auth
-    from api.v1.auth.basic_auth import BasicAuth
     auth = Auth()
 else:
+    from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
 
 

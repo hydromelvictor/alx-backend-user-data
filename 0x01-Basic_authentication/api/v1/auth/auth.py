@@ -24,12 +24,14 @@ class Auth:
         __return__: boolean
         """
         excluded_all = []
+        path0 = None
         if excluded_paths:
             for s in excluded_paths:
                 if s[-1] == '*':
                     s = s[:len(s) - 1]
                 excluded_all.append(s)
-        path0 = path + '/' if path[-1] != '/' else path[:len(path) - 1]
+        if path:
+            path0 = path + '/' if path[-1] != '/' else path[:len(path) - 1]
         if path is None or (path not in excluded_all and 
                             path0 not in excluded_all) \
                                 or excluded_paths is None or \

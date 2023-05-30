@@ -23,9 +23,12 @@ class Auth:
 
         __return__: boolean
         """
-        excluded_all = None
+        excluded_all = []
         if excluded_paths:
-            excluded_all = [i[:len(i) - 1] for i in excluded_paths if i[-1] == '*']
+            for s in excluded_paths:
+                if s[-1] == '*':
+                    s = s[:len(s) - 1]
+                excluded_all.append(s)
         path0 = path + '/' if path[-1] != '/' else path[:len(path) - 1]
         if path is None or (path not in excluded_all and 
                             path0 not in excluded_all) \
@@ -45,7 +48,7 @@ class Auth:
 
         __return__: None
         """
-        return request.headers.get('Authorization', None)
+        return request.headers.get('Authorization')
     
     def current_user(self, request=None) -> TypeVar('User'):
         """

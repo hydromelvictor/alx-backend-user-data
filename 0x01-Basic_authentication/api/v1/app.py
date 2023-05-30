@@ -23,6 +23,7 @@ else:
     auth = BasicAuth()
 
 
+@app.before_request
 def req_before():
     """before request"""
     excluded_paths = ['/api/v1/status/',

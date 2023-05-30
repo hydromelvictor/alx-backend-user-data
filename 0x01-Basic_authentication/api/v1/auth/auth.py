@@ -5,6 +5,7 @@ Create the class Auth:
 in the file api/v1/auth/auth.py
 """
 from flask import request
+from typing import List, TypeVar
 
 
 class Auth:

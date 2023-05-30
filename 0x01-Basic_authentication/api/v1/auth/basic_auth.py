@@ -32,7 +32,7 @@ class BasicAuth(Auth):
         """extract user credentials"""
         if decoded_base64_authorization_header and \
                 type(decoded_base64_authorization_header) is str:
-            if len(decoded_base64_authorization_header) != 0:
+            if len(decoded_base64_authorization_header):
                 tab = tuple(decoded_base64_authorization_header.split(':'))
                 return tab[0], ':'.join(tab[1:])
         return None, None

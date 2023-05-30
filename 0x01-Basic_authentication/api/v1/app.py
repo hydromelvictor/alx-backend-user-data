@@ -24,16 +24,15 @@ elif getenv('AUTH_TYPE') == 'basic_auth':
 
 
 @app.before_request
-def req_before():
+def before_request():
     """before request"""
     excluded_paths = ['/api/v1/status/',
                       '/api/v1/unauthorized/', '/api/v1/forbidden/']
-    if not auth or auth.require_auth(request.path, excluded_paths):
-        pass
-    if auth.authorization_header(request) == None:
-        abort(404)
-    if auth.current_user(request) == None:
-        abort(403)
+    if auth and auth.require_auth(request.path, excluded_paths):
+        if auth.authorization_header(request) == None:
+            abort(401)
+        if auth.current_user(request) == None:
+            abort(403)
 
 
 @app.errorhandler(404)
@@ -44,13 +43,13 @@ def not_found(error) -> str:
 
 
 @app.errorhandler(401)
-def error_unauthorized(error) -> str:
+def unauthorized(error) -> str:
     """request unauthorized"""
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
-def error_forbidden(error) -> str:
+def forbidden(error) -> str:
     """forbidden error"""
     return jsonify({"error": "Forbidden"}), 403
 

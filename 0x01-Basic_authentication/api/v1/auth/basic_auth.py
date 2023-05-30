@@ -6,6 +6,7 @@ from auth.auth import Auth
 from flask import request
 import base64
 from models.user import User
+from typing import TypeVar
 
 
 class BasicAuth(Auth):

@@ -36,5 +36,6 @@ def login():
             json_me = jsonify(me.to_json())
             json_me.set_cookie(getenv('SESSION_NAME'), key)
             return json_me
-    else:
-        return jsonify({ "error": "wrong password" }), 401
+        else:
+            return jsonify({ "error": "wrong password" }), 401
+    return jsonify({ "error": "no user found for this email" }), 404

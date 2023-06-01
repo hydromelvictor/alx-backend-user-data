@@ -884,6 +884,7 @@ Surcharge def __init__(self) : method :
 Affecte un attribut d'instance session_duration :
 A la variable d'environnement SESSION_DURATION, convertie en un entier
 Si cette variable d'environnement n'existe pas ou ne peut pas être transformée en entier, elle est assignée à 0.
+
 Surcharge def create_session(self, user_id=None) :
 Créer un identifiant de session en appelant super() - super() appellera la méthode create_session() de SessionAuth
 Retourne None si super() ne peut pas créer un ID de session
@@ -891,6 +892,7 @@ Utiliser cet identifiant de session comme clé du dictionnaire user_id_by_sessio
 la clé user_id doit correspondre à la variable user_id
 La clé created_at doit correspondre à la date du jour - vous devez utiliser datetime.now()
 Renvoie l'identifiant de la session créée
+
 Surcharge def user_id_for_session_id(self, session_id=None) :
 Retourne None si session_id est None
 Retourne None si user_id_by_session_id ne contient pas de clé égale à session_id

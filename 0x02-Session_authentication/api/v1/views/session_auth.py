@@ -24,14 +24,16 @@ def login():
         users = User.search({'email': email})
     except Exception:
         return jsonify({ "error": "no user found for this email" }), 404
-    
-    me = None
+
+    if not users:
+        return jsonify({ "error": "no user found for this email" }), 404
+
     for user in users:
         if user.is_valid_password(password):
-            from api.v1.app import auth
             me = user
+            from api.v1.app import auth
             key = auth.create_session(me.id)
-            json_me = me.to_json()
+            json_me = jsonify(me.to_json())
             json_me.set_cookie(getenv('SESSION_NAME'), key)
             return json_me
     else:

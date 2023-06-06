@@ -36,22 +36,25 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """new user"""
-
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
-        return user
+        if email and hashed_password:
+            user = User(email=email, hashed_password=hashed_password)
+            self._session.add(user)
+            self._session.commit()
+            return user
 
     def find_user_by(self, **kwargs) -> User:
         """
         keywordargument
         """
-        if not kwargs or any(key not in UserArgs for key in kwargs):
+        if kwargs:
+            if any(key not in UserArgs for key in kwargs):
+                raise InvalidRequestError
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if not user:
+                raise NoResultFound
+            return user
+        else:
             raise InvalidRequestError
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if not user:
-            raise NoResultFound
-        return user
 
     def update_user(self, id: int, **kwargs) -> None:
         """update user"""

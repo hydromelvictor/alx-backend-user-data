@@ -18,7 +18,7 @@ def welcome():
     """
     salutation
     """
-    return jsonify({"message": "Bienvenue"}), 200
+    return jsonify({"message": "Bienvenue"})
 
 
 @app.route('/users/<email>/<password>', methods=['POST'], strict_slashes=False)

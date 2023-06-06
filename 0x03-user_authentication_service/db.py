@@ -55,9 +55,8 @@ class DB:
 
     def update_user(self, id: int, **kwargs) -> None:
         """update user"""
-        for key in kwargs:
-            if key not in UserArgs:
-                raise ValueError
+        if any(key not in UserArgs for key in kwargs):
+            raise ValueError
         try:
             user = self.find_user_by(**kwargs)
             for key, val in kwargs.items():

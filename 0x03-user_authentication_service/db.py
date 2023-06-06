@@ -48,9 +48,9 @@ class DB:
         """
         if not kwargs or any(key not in UserArgs for key in kwargs):
             raise InvalidRequestError
-        session = self._session
         try:
-            return session.query(User).filter_by(**kwargs).one()
+            user = self._session.query(User).filter_by(**kwargs).one()
+            return user
         except Exception:
             raise NoResultFound
 

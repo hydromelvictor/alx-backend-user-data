@@ -13,7 +13,7 @@ from user import Base, User
 UserArgs = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
 
 
-class DB(Base):
+class DB:
     """DB class
     """
 

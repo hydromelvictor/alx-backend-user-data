@@ -39,8 +39,9 @@ class DB:
         if not email or not hashed_password:
             return
         user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
+        session = self._session
+        session.add(user)
+        session.commit()
         return user
 
     def find_user_by(self, **kwargs) -> User:
@@ -49,8 +50,9 @@ class DB:
         """
         if not kwargs or any(key not in UserArgs for key in kwargs):
             raise InvalidRequestError
+        session = self._session
         try:
-            return self._session.query(User).filter_by(**kwargs).one()
+            return session.query(User).filter_by(**kwargs).one()
         except Exception:
             raise NoResultFound
 
@@ -61,8 +63,8 @@ class DB:
                 raise ValueError
         try:
             user = self.find_user_by(**kwargs)
+            for key, val in kwargs.items():
+                setattr(user, key, val)
+            return None
         except Exception:
             return None
-        for key, val in kwargs.items():
-            setattr(user, key, val)
-        return None

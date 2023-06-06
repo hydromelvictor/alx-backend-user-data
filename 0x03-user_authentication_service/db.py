@@ -61,6 +61,7 @@ class DB:
             user = self.find_user_by(**kwargs)
             for key, val in kwargs.items():
                 setattr(user, key, val)
+            self._session.commit()
             return None
         except Exception:
             return None

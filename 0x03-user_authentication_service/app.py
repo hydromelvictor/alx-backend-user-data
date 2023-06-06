@@ -22,7 +22,7 @@ def welcome() -> str:
 
 
 @app.route('/users/<email>/<password>', methods=['POST'], strict_slashes=False)
-def users(email, password) -> str:
+def users() -> str:
     """all users"""
     try:
         AUTH.register_user(email, password)

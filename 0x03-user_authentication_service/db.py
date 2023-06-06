@@ -9,7 +9,6 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 
 from user import Base, User
-from typing import TypeVar
 
 UserArgs = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
 
@@ -48,11 +47,8 @@ class DB:
         """
         keywordargument
         """
-        if not kwargs:
+        if not kwargs or any(key not in UserArgs for key in kwargs):
             raise InvalidRequestError
-        for key in kwargs:
-            if key not in UserArgs:
-                raise InvalidRequestError
         try:
             return self._session.query(User).filter_by(**kwargs).one()
         except Exception:

@@ -44,7 +44,7 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """
-        keywordargument
+        keyword argument
         """
         if not kwargs or any(key not in UserArgs for key in kwargs):
             raise InvalidRequestError
@@ -53,12 +53,12 @@ class DB:
             raise NoResultFound
         return user
 
-    def update_user(self, id: int, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """update user"""
         if any(key not in UserArgs for key in kwargs):
             raise ValueError
         try:
-            user = self.find_user_by(**kwargs)
+            user = self.find_user_by(id=user_id)
             for key, val in kwargs.items():
                 setattr(user, key, val)
             self._session.commit()
